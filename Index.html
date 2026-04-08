@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notre Histoire — Le Mathye</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --rouge:  #A61F03;
+      --orange: #FF4A05;
+      --peche:  #FFD5BE;
+      --jaune:  #FABA00;
+      --rose:   #F169A7;
+      --blanc:  #FFFAF7;
+      --sombre: #1A0A00;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--blanc); color: var(--sombre); overflow-x: hidden; }
+
+```
+/* ── CURSEUR ── */
+* { cursor: none; }
+.cursor { position: fixed; z-index: 9999; pointer-events: none; width: 12px; height: 12px; background: var(--rouge); border-radius: 50%; transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s; }
+.cursor-ring { position: fixed; z-index: 9998; pointer-events: none; width: 36px; height: 36px; border: 2px solid var(--orange); border-radius: 50%; transform: translate(-50%,-50%); transition: width .25s, height .25s; opacity: .6; }
+.cursor.hover { width: 20px; height: 20px; background: var(--orange); }
+.cursor-ring.hover { width: 56px; height: 56px; opacity: .3; }
+
+/* ── NAVBAR ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4rem; background: rgba(255,250,247,.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--peche); transition: padding .3s, box-shadow .3s; }
+nav.scrolled { padding: .8rem 4rem; box-shadow: 0 4px 30px rgba(166,31,3,.1); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--rouge); text-decoration: none; }
+.nav-logo span { color: var(--orange); }
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a { text-decoration: none; font-size: .9rem; font-weight: 500; color: var(--sombre); letter-spacing: .05em; text-transform: uppercase; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--orange); }
+.nav-cta { background: var(--rouge); color: #fff !important; padding: .55rem 1.4rem; border-radius: 50px; transition: background .2s !important; }
+.nav-cta:hover { background: var(--orange) !important; }
+
+/* ── HERO ── */
+.hero {
+  padding-top: 80px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+  background: var(--sombre);
+}
+
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 6rem 4rem 6rem 6rem;
+  position: relative; z-index: 2;
+}
+
+.breadcrumb { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: rgba(255,255,255,.4); margin-bottom: 1.5rem; }
+.breadcrumb a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+.breadcrumb a:hover { color: var(--peche); }
+.breadcrumb span { color: var(--peche); }
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(255,213,190,.15); color: var(--peche);
+  font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: .4rem 1rem; border-radius: 50px; margin-bottom: 1.8rem; width: fit-content;
+  border: 1px solid rgba(255,213,190,.2);
+  animation: fadeUp .6s ease both;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 4.5vw, 5rem); font-weight: 900; line-height: 1.08;
+  color: #fff; margin-bottom: 1.5rem;
+  animation: fadeUp .7s .1s ease both;
+}
+.hero-title em { font-style: italic; color: var(--peche); display: block; }
+
+.hero-intro {
+  font-size: 1.05rem; font-weight: 300; line-height: 1.85;
+  color: rgba(255,255,255,.65); max-width: 460px;
+  animation: fadeUp .7s .2s ease both;
+}
+
+.hero-signature {
+  margin-top: 3rem;
+  display: flex; align-items: center; gap: 1.2rem;
+  animation: fadeUp .7s .35s ease both;
+}
+.signature-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--rouge), var(--orange));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 900; color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 8px 25px rgba(255,74,5,.3);
+}
+.signature-text strong { display: block; color: #fff; font-size: 1rem; font-weight: 600; }
+.signature-text span { color: rgba(255,255,255,.45); font-size: .82rem; }
+
+/* hero right – image décorative */
+.hero-right {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.hero-img-wrap {
+  position: relative; width: 100%; height: 100%;
+  overflow: hidden;
+}
+.hero-img-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #3a0e00 0%, var(--rouge) 40%, var(--orange) 70%, var(--jaune) 100%);
+  opacity: .7;
+}
+.hero-img-emoji {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12rem; opacity: .15;
+  animation: slowSpin 30s linear infinite;
+}
+@keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.hero-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--sombre) 0%, transparent 40%);
+}
+
+/* blobs */
+.blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .2; pointer-events: none; }
+.b1 { width: 300px; height: 300px; background: var(--rouge); top: 10%; left: 5%; animation: bA 10s ease-in-out infinite; }
+.b2 { width: 200px; height: 200px; background: var(--jaune); bottom: 20%; right: 8%; animation: bB 13s ease-in-out infinite; }
+.b3 { width: 160px; height: 160px; background: var(--rose); top: 50%; left: 40%; animation: bA 11s ease-in-out infinite reverse; }
+@keyframes bA { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-15px) scale(1.1)} }
+@keyframes bB { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-15px,20px) scale(1.08)} }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── VALEURS BAND ── */
+.valeurs-band {
+  background: var(--peche);
+  padding: 3rem 6rem;
+  display: flex; justify-content: space-around; align-items: center;
+  flex-wrap: wrap; gap: 2rem;
+}
+.valeur-item { text-align: center; max-width: 200px; }
+.valeur-icon { font-size: 2.5rem; margin-bottom: .6rem; display: block; }
+.valeur-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--rouge); margin-bottom: .3rem; }
+.valeur-desc { font-size: .82rem; color: #6a3a22; line-height: 1.5; }
+
+/* ── SECTION HISTOIRE ── */
+.histoire-section {
+  padding: 7rem 6rem;
+  background: var(--blanc);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.histoire-section.reverse { direction: rtl; }
+.histoire-section.reverse > * { direction: ltr; }
+.histoire-section.dark { background: var(--sombre); }
+
+.section-label { font-size: .78rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin-bottom: .8rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 2.8vw, 2.8rem); font-weight: 900; line-height: 1.15; color: var(--sombre); margin-bottom: 1.4rem; }
+.section-title em { font-style: italic; color: var(--rouge); }
+.histoire-section.dark .section-title { color: #fff; }
+.histoire-section.dark .section-label { color: var(--jaune); }
+
+.histoire-text { font-size: 1rem; line-height: 1.85; color: #5a3a28; }
+.histoire-section.dark .histoire-text { color: rgba(255,255,255,.65); }
+
+.histoire-text p + p { margin-top: 1.2rem; }
+
+.histoire-img {
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+  box-shadow: 0 25px 70px rgba(166,31,3,.18);
+}
+.histoire-img-inner {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: .8rem;
+  font-size: .85rem; font-weight: 500; color: rgba(255,255,255,.7);
+}
+.histoire-img-inner .img-icon { font-size: 4rem; }
+
+.img-famille { background: linear-gradient(135deg, var(--rouge), var(--orange)); }
+.img-formation { background: linear-gradient(135deg, var(--sombre), #4a1500); }
+.img-aujourd { background: linear-gradient(135deg, var(--jaune), var(--orange)); }
+
+/* badge sur image */
+.img-badge {
+  position: absolute; bottom: 1.5rem; left: 1.5rem;
+  background: #fff; border-radius: 14px;
+  padding: .7rem 1.1rem;
+  display: flex; align-items: center; gap: .6rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,.15);
+  font-size: .82rem; font-weight: 600; color: var(--sombre);
+}
+.img-badge span { font-size: 1.3rem; }
+
+/* ── TIMELINE ── */
+.timeline-section {
+  padding: 6rem 6rem;
+  background: var(--peche);
+  position: relative; overflow: hidden;
+}
+.timeline-section::before {
+  content: '2020 — 2025';
+  position: absolute; bottom: -20px; right: -10px;
+  font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 900;
+  color: rgba(166,31,3,.06); pointer-events: none; white-space: nowrap;
+}
+
+.timeline-header { text-align: center; margin-bottom: 4rem; }
+.timeline-header .section-title { color: var(--sombre); }
+
+.timeline { position: relative; max-width: 800px; margin: 0 auto; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, var(--rouge), var(--orange), var(--jaune));
+  transform: translateX(-50%);
+}
+
+.tl-item {
+  display: flex; align-items: flex-start;
+  margin-bottom: 3rem; position: relative;
+}
+.tl-item:nth-child(odd) { flex-direction: row; }
+.tl-item:nth-child(even) { flex-direction: row-reverse; }
+
+.tl-content {
+  width: calc(50% - 40px);
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.8rem;
+  box-shadow: 0 8px 35px rgba(166,31,3,.08);
+  opacity: 0; transition: opacity .6s ease, transform .6s ease;
+}
+.tl-item:nth-child(odd) .tl-content { transform: translateX(-30px); margin-right: auto; }
+.tl-item:nth-child(even) .tl-content { transform: translateX(30px); margin-left: auto; }
+.tl-content.visible { opacity: 1; transform: translateX(0) !important; }
+
+.tl-dot {
+  position: absolute; left: 50%; top: 1.5rem;
+  transform: translateX(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--rouge), var(--orange));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; z-index: 2;
+  box-shadow: 0 4px 20px rgba(255,74,5,.3);
+  flex-shrink: 0;
+}
+
+.tl-year { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--rouge); margin-bottom: .4rem; }
+.tl-title { font-weight: 700; font-size: 1rem; color: var(--sombre); margin-bottom: .5rem; }
+.tl-desc { font-size: .88rem; line-height: 1.6; color: #5a3a28; }
+
+/* ── PHILOSOPHIE ── */
+.philosophie {
+  padding: 7rem 6rem;
+  background: linear-gradient(135deg, var(--sombre), #3a0e00);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.philosophie::before {
+  content: '❝';
+  position: absolute; top: -20px; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 20rem; color: rgba(255,255,255,.03);
+  pointer-events: none; line-height: 1;
+}
+
+.philo-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  font-style: italic; font-weight: 700;
+  color: #fff; line-height: 1.4;
+  max-width: 800px; margin: 0 auto 2rem;
+  position: relative; z-index: 1;
+}
+.philo-quote em { color: var(--peche); }
+
+.philo-author { color: rgba(255,255,255,.4); font-size: .9rem; position: relative; z-index: 1; }
+.philo-author strong { color: var(--peche); }
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(135deg, var(--rouge), var(--orange), var(--jaune));
+  padding: 6rem 4rem; text-align: center; position: relative; overflow: hidden;
+}
+.cta-section::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+.cta-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 900; color: #fff; margin-bottom: 1rem; position: relative; }
+.cta-desc { font-size: 1rem; color: rgba(255,255,255,.85); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; position: relative; }
+.btn-white { background: #fff; color: var(--rouge); padding: 1rem 2.5rem; border-radius: 50px; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; display: inline-block; transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; }
+.btn-white:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.2); }
+.particle { position: absolute; border-radius: 50%; pointer-events: none; opacity: 0; animation: pFly linear infinite; }
+@keyframes pFly { 0%{transform:translateY(100%) scale(0);opacity:0} 10%{opacity:.7} 90%{opacity:.4} 100%{transform:translateY(-120vh) scale(1.5);opacity:0} }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(35px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal.from-left { transform: translateX(-40px); }
+.reveal.from-right { transform: translateX(40px); }
+.reveal-d1 { transition-delay: .1s; }
+.reveal-d2 { transition-delay: .2s; }
+.reveal-d3 { transition-delay: .3s; }
+
+/* ── FOOTER ── */
+footer { background: var(--sombre); padding: 3rem 6rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: #fff; }
+.footer-logo span { color: var(--orange); }
+.footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: .85rem; margin-left: 2rem; transition: color .2s; }
+.footer-links a:hover { color: var(--orange); }
+.footer-copy { color: rgba(255,255,255,.3); font-size: .78rem; width: 100%; text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.08); margin-top: .5rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 4rem 1.5rem 3rem; }
+  .hero-right { display: none; }
+  .valeurs-band { padding: 2.5rem 1.5rem; }
+  .histoire-section { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 2.5rem; }
+  .histoire-section.reverse { direction: ltr; }
+  .timeline-section { padding: 4rem 1.5rem; }
+  .timeline::before { left: 20px; }
+  .tl-item, .tl-item:nth-child(even) { flex-direction: column; padding-left: 55px; }
+  .tl-content, .tl-item:nth-child(odd) .tl-content, .tl-item:nth-child(even) .tl-content { width: 100%; margin: 0; }
+  .tl-dot { left: 20px; }
+  .philosophie { padding: 5rem 1.5rem; }
+  .cta-section { padding: 5rem 1.5rem; }
+  footer { padding: 2.5rem 1.5rem; flex-direction: column; text-align: center; }
+  .footer-links a { margin: 0 .8rem; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAVBAR -->
+
+<nav id="navbar">
+  <a href="lemathye-accueil.html" class="nav-logo">Le <span>Mathye</span></a>
+  <ul class="nav-links">
+    <li><a href="lemathye-accueil.html">Accueil</a></li>
+    <li><a href="#">Nos Créations</a></li>
+    <li><a href="#">Prestations</a></li>
+    <li><a href="#" class="active">Notre Histoire</a></li>
+    <li><a href="lemathye-temoignages.html">Témoignages</a></li>
+    <li><a href="lemathye-devis.html" class="nav-cta">Demander un devis</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <div class="hero-left">
+    <div class="breadcrumb">
+      <a href="lemathye-accueil.html">Accueil</a>
+      <span>›</span>
+      <span>Notre Histoire</span>
+    </div>
+    <div class="hero-tag">✦ Une aventure humaine & culinaire</div>
+    <h1 class="hero-title">
+      Là où la passion<br>
+      <em>devient métier</em>
+    </h1>
+    <p class="hero-intro">
+      Le Mathye, c'est l'histoire d'une vocation née entre les fourneaux familiaux 
+      et forgée dans les cuisines des grandes écoles hôtelières. 
+      Une cuisine française classique, sincère, portée par l'amour du partage.
+    </p>
+    <div class="hero-signature">
+      <div class="signature-avatar">M</div>
+      <div class="signature-text">
+        <strong>Le fondateur du Mathye</strong>
+        <span>Traiteur · Antibes, Côte d'Azur</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <div class="hero-img-bg"></div>
+      <div class="hero-img-emoji">👨‍🍳</div>
+      <div class="hero-img-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALEURS -->
+
+<div class="valeurs-band">
+  <div class="valeur-item reveal">
+    <span class="valeur-icon">❤️</span>
+    <div class="valeur-title">Passion</div>
+    <div class="valeur-desc">La cuisine est avant tout une histoire d'amour transmise de génération en génération.</div>
+  </div>
+  <div class="valeur-item reveal reveal-d1">
+    <span class="valeur-icon">🌿</span>
+    <div class="valeur-title">Authenticité</div>
+    <div class="valeur-desc">Des produits frais, locaux et de saison, sélectionnés avec soin pour chaque prestation.</div>
+  </div>
+  <div class="valeur-item reveal reveal-d2">
+    <span class="valeur-icon">✨</span>
+    <div class="valeur-title">Excellence</div>
+    <div class="valeur-desc">Les exigences de l'école hôtelière au service de vos événements les plus précieux.</div>
+  </div>
+  <div class="valeur-item reveal reveal-d3">
+    <span class="valeur-icon">🤝</span>
+    <div class="valeur-title">Sur mesure</div>
+    <div class="valeur-desc">Chaque client est unique. Chaque événement mérite une réponse personnalisée.</div>
+  </div>
+</div>
+
+<!-- SECTION 1 : La famille -->
+
+<section class="histoire-section">
+  <div class="histoire-text reveal from-left">
+    <div class="section-label">Les origines</div>
+    <h2 class="section-title">Une passion née<br><em>à la table familiale</em></h2>
+    <p>Tout a commencé bien avant Le Mathye. Dès l'enfance, les dimanches en famille rimaient avec odeurs de cuisine, plats mijotés et tablées joyeuses. La cuisine n'était pas une corvée — c'était un langage, une façon d'exprimer son amour et de rassembler les gens.</p>
+    <p>C'est dans cet environnement chaleureux que la vocation s'est forgée. Regarder, goûter, essayer, rater, recommencer. La cuisine française classique — ses sauces, ses textures, ses équilibres — est devenue une obsession douce et naturelle.</p>
+    <p>Aujourd'hui encore, cette tradition familiale guide chaque création : cuisiner avec le cœur, pour que chaque bouchée raconte quelque chose.</p>
+  </div>
+  <div class="histoire-img reveal from-right">
+    <div class="histoire-img-inner img-famille">
+      <span class="img-icon">🏠</span>
+      Votre photo ici<br><small style="opacity:.6">ex : cuisine familiale, repas en famille…</small>
+    </div>
+    <div class="img-badge"><span>❤️</span> Une passion transmise</div>
+  </div>
+</section>
+
+<!-- SECTION 2 : La formation -->
+
+<section class="histoire-section reverse dark">
+  <div class="histoire-text reveal from-right">
+    <div class="section-label">La formation</div>
+    <h2 class="section-title">L'école qui<br><em>a tout changé</em></h2>
+    <p>Pour transformer cette passion en maîtrise, il a fallu apprendre les fondamentaux. L'école hôtelière a apporté la rigueur, les techniques, la discipline de cuisine. Les bases de la gastronomie française classique, travaillées encore et encore jusqu'à en faire une seconde nature.</p>
+    <p>Les années de formation ont également ouvert les yeux sur l'importance de la présentation, du service, de l'organisation. Un traiteur ne fait pas que cuisiner — il crée une expérience complète, de la mise en place à l'assiette.</p>
+    <p>C'est cette vision globale, apprise sur les bancs de l'école, qui est aujourd'hui au cœur de chaque prestation du Mathye.</p>
+  </div>
+  <div class="histoire-img reveal from-left">
+    <div class="histoire-img-inner img-formation">
+      <span class="img-icon">🎓</span>
+      Votre photo ici<br><small style="opacity:.6">ex : diplôme, école, brigade…</small>
+    </div>
+    <div class="img-badge"><span>🎓</span> Formation hôtelière</div>
+  </div>
+</section>
+
+<!-- SECTION 3 : Aujourd'hui -->
+
+<section class="histoire-section">
+  <div class="histoire-text reveal from-left">
+    <div class="section-label">Aujourd'hui</div>
+    <h2 class="section-title">Le Mathye,<br><em>votre traiteur à Antibes</em></h2>
+    <p>Après quelques années à affiner la vision et construire son savoir-faire, Le Mathye a vu le jour sur la Côte d'Azur. Un projet profondément personnel, qui porte le nom de famille comme un étendard, et qui incarne une promesse simple : mettre toute cette passion au service de vos moments importants.</p>
+    <p>Événements d'entreprise, anniversaires, fêtes privées… chaque commande est abordée avec la même dévotion. Pas de formules toutes faites, pas de menus standards : tout est pensé, discuté, construit avec vous.</p>
+    <p>Basé à Antibes, Le Mathye intervient sur toute la Côte d'Azur. Et l'aventure ne fait que commencer.</p>
+  </div>
+  <div class="histoire-img reveal from-right">
+    <div class="histoire-img-inner img-aujourd">
+      <span class="img-icon">🍽️</span>
+      Votre photo ici<br><small style="opacity:.5; color: var(--sombre)">ex : vous en action, buffet dressé…</small>
+    </div>
+    <div class="img-badge"><span>📍</span> Antibes, Côte d'Azur</div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+
+<section class="timeline-section">
+  <div class="timeline-header">
+    <div class="section-label" style="color:var(--rouge); text-align:center">Les grandes étapes</div>
+    <h2 class="section-title" style="color:var(--sombre); text-align:center">Notre parcours<br><em style="color:var(--rouge)">en quelques dates</em></h2>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">👨‍👩‍👧</div>
+      <div class="tl-content">
+        <div class="tl-year">Enfance</div>
+        <div class="tl-title">La cuisine familiale</div>
+        <div class="tl-desc">Des dimanches en famille qui forgent une passion durable pour les saveurs françaises classiques.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🎓</div>
+      <div class="tl-content">
+        <div class="tl-year">Formation</div>
+        <div class="tl-title">L'école hôtelière</div>
+        <div class="tl-desc">Acquisition des techniques culinaires classiques, de la rigueur et de la vision d'ensemble d'un professionnel.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🌟</div>
+      <div class="tl-content">
+        <div class="tl-year">Il y a 3 ans</div>
+        <div class="tl-title">Naissance du Mathye</div>
+        <div class="tl-desc">Lancement de l'activité à Antibes. Les premiers clients, les premiers événements, les premières réussites.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">📈</div>
+      <div class="tl-content">
+        <div class="tl-year">Aujourd'hui</div>
+        <div class="tl-title">Une clientèle fidèle</div>
+        <div class="tl-desc">Des dizaines d'événements réalisés, des clients qui reviennent et recommandent. Une réputation qui se construit événement après événement.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🚀</div>
+      <div class="tl-content">
+        <div class="tl-year">Demain</div>
+        <div class="tl-title">L'aventure continue</div>
+        <div class="tl-desc">De nouveaux projets, de nouvelles créations, et toujours la même ambition : faire de chaque événement un souvenir inoubliable.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHIE -->
+
+<section class="philosophie">
+  <p class="philo-quote reveal">
+    "La cuisine, c'est l'art de transformer des ingrédients simples<br>
+    en <em>émotions durables</em>."
+  </p>
+  <p class="philo-author reveal reveal-d1">— <strong>Le fondateur du Mathye</strong>, traiteur à Antibes</p>
+</section>
+
+<!-- CTA -->
+
+<section class="cta-section" id="ctaSection">
+  <h2 class="cta-title reveal">Envie de vivre<br>cette expérience ?</h2>
+  <p class="cta-desc reveal reveal-d1">Confiez-nous votre prochain événement et laissez-nous mettre toute notre passion à votre service.</p>
+  <a href="lemathye-devis.html" class="btn-white reveal reveal-d2">Demander un devis gratuit →</a>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">Le <span>Mathye</span></div>
+  <div class="footer-links">
+    <a href="lemathye-accueil.html">Accueil</a>
+    <a href="#">Créations</a>
+    <a href="lemathye-temoignages.html">Témoignages</a>
+    <a href="lemathye-devis.html">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Le Mathye — Traiteur à Antibes · Tous droits réservés</div>
+</footer>
+
+<script>
+/* ── CURSEUR ── */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+(function loop(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+document.querySelectorAll('a,button,.valeur-item').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+});
+
+/* ── NAVBAR SCROLL ── */
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', scrollY > 40));
+
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .tl-content').forEach(el => obs.observe(el));
+
+/* ── PARTICULES CTA ── */
+const cta = document.getElementById('ctaSection');
+['#FF4A05','#FABA00','#F169A7','#FFD5BE','#A61F03'].forEach(color => {
+  for (let i = 0; i < 4; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const s = Math.random()*10+4;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:-20px;background:${color};animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*8}s`;
+    cta.appendChild(p);
+  }
+});
+
+/* ── RIPPLE ── */
+document.querySelector('.btn-white').addEventListener('click', function(e) {
+  const r = document.createElement('span');
+  r.classList.add('ripple');
+  const rect = this.getBoundingClientRect(), s = Math.max(rect.width, rect.height);
+  r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px;position:absolute;border-radius:50%;background:rgba(166,31,3,.15);transform:scale(0);animation:rpl .6s linear;pointer-events:none`;
+  this.appendChild(r); setTimeout(()=>r.remove(),700);
+});
+const st = document.createElement('style');
+st.textContent = '@keyframes rpl{to{transform:scale(4);opacity:0}}';
+document.head.appendChild(st);
+</script>
+
+</body>
+</html>
